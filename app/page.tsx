@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 
 // / アラビア文字の基本28文字（ハムザを含む場合は29文字）
-export const getRandomAlphabet = (): string => {
+const getRandomAlphabet = (): string => {
   const arabicLetters = [
     "ا",
     "ب",
