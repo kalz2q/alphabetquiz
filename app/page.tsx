@@ -37,21 +37,31 @@ export const getRandomAlphabet = (): string => {
   const randomIndex = Math.floor(Math.random() * arabicLetters.length);
   return arabicLetters[randomIndex];
 };
+
 const AlphabetQuiz = () => {
   const [currentLetter, setCurrentLetter] = useState<string>("");
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [playBeep, setPlayBeep] = useState<boolean>(false);
 
+  const setRandomLetter = useCallback(() => {
+    setCurrentLetter(getRandomAlphabet());
+    setIsCorrect(null);
+  }, []);
+
   // 初期問題出題
   useEffect(() => {
     setRandomLetter();
-  }, []);
+  }, [setRandomLetter]);
 
   // ビープ音再生
   useEffect(() => {
     if (playBeep) {
+      // const audioContext = new (window.AudioContext ||
+      //   (window as any).webkitAudioContext)();
       const audioContext = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
+        (window as unknown as { webkitAudioContext: typeof AudioContext })
+          .webkitAudioContext)();
+
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
 
@@ -69,11 +79,6 @@ const AlphabetQuiz = () => {
       }, 300);
     }
   }, [playBeep]);
-
-  const setRandomLetter = useCallback(() => {
-    setCurrentLetter(getRandomAlphabet());
-    setIsCorrect(null);
-  }, []);
 
   const handleNextLetter = useCallback(() => {
     setRandomLetter();
