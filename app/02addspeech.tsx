@@ -104,13 +104,12 @@ const AlphabetQuiz = () => {
       const pressedKey = e.key.toUpperCase();
       if (pressedKey === currentLetter.char) {
         setIsCorrect(true);
-        playLetterSound(); // 正解時に音声を再生
       } else {
         setIsCorrect(false);
         setPlayBeep(true);
       }
     },
-    [currentLetter.char, playLetterSound]
+    [currentLetter.char]
   );
 
   useEffect(() => {
